@@ -18,7 +18,6 @@ public class App {
         DbConnection dbConnection = new DbConnection();
         Scanner scanner = new Scanner(System.in);
 
-        // Wiring
         ArtistRepository artistRepository = new ArtistRepositoryImpl(dbConnection);
         ArtistService artistService = new ArtistServiceImpl(artistRepository);
         ArtistView artistView = new ArtistView(artistService, scanner);
@@ -31,7 +30,32 @@ public class App {
         UserService userService = new UserServiceImpl(userRepository);
         UserView userView = new UserView(userService, scanner);
 
+
         artistView.displayAllArtists();
-        artistView.promtCreateArtist();
+        artistView.promptCreateArtist();
+        artistView.promptUpdateArtist();
+        artistView.promptDeleteArtist();
+        artistView.promptArchiveArtist();
+        artistView.promptRestoreArtist();
+        artistView.promptSearchArtists();
+
+        albumView.displayAllAlbums();
+        albumView.promptCreateAlbum();
+        albumView.promptUpdateAlbum();
+        albumView.promptDeleteAlbum();
+        albumView.promptArchiveAlbum();
+        albumView.promptRestoreAlbum();
+        albumView.promptSearchAlbums();
+
+        userView.promptCreateUser();
+        userView.displayAllUsers();
+        userView.promptUpdateUser();
+        userView.promptSearchUsers();
+        userView.promptArchiveUser();
+        userView.promptRestoreUser();
+        userView.promptDeleteUser();
+        userView.promptLoginUser();
+
+
     }
 }

@@ -33,7 +33,7 @@ public class ArtistView {
         }
     }
 
-    public void promtCreateArtist() {
+    public void promptCreateArtist() {
 
         System.out.println("\n----- Create New Artist ----");
         String name = getStringPrompt("Enter artist name: ");
