@@ -15,18 +15,18 @@ public class AlbumView {
         this.scanner = scanner;
     }
 
-    public void handleAlbumMenu () {
+    public void handleMenu() {
 
         while (true) {
             System.out.println("\n----- Manage Albums -----");
-            System.out.println("1. View all albums");
-            System.out.println("2. Create new album");
-            System.out.println("3. Update album");
-            System.out.println("4. Search album");
-            System.out.println("5. Archive album");
-            System.out.println("6. Restore album");
-            System.out.println("7. Delete album");
-            System.out.println("0. Exit");
+            System.out.println("1. View All Albums");
+            System.out.println("2. Create Album");
+            System.out.println("3. Update Album");
+            System.out.println("4. Search Album");
+            System.out.println("5. Archive Album");
+            System.out.println("6. Restore Album");
+            System.out.println("7. Delete Album");
+            System.out.println("0. Back");
 
             int choice = getIntPrompt("Choose an option: ");
             switch (choice) {
@@ -37,8 +37,10 @@ public class AlbumView {
                 case 5 -> promptArchiveAlbum();
                 case 6 -> promptRestoreAlbum();
                 case 7 -> promptDeleteAlbum();
-                case 0 -> {return;}
-                default -> System.out.println("Invalid choice. Please try again.");
+                case 0 -> {
+                    return;
+                }
+                default -> System.out.println("Invalid option. Please try again.");
             }
         }
     }

@@ -6,6 +6,7 @@ import com.joysistvi.recordingapp.repository.*;
 import com.joysistvi.recordingapp.service.*;
 import com.joysistvi.recordingapp.view.AlbumView;
 import com.joysistvi.recordingapp.view.ArtistView;
+import com.joysistvi.recordingapp.view.PlaylistView;
 import com.joysistvi.recordingapp.view.SongView;
 import com.joysistvi.recordingapp.view.UserView;
 import java.util.Scanner;
@@ -28,6 +29,10 @@ public class App {
     SongService songService = new SongServiceImpl(songRepository);
     SongView songView = new SongView(songService, scanner);
 
+    PlaylistRepository playlistRepository = new PlaylistRepositoryImpl(dbConnection);
+    PlaylistService playlistService = new PlaylistServiceImpl(playlistRepository);
+    PlaylistView playlistView = new PlaylistView(playlistService, scanner);
+
     UserRepository userRepository = new UserRepositoryImpl(dbConnection);
     UserService userService = new UserServiceImpl(userRepository);
     UserView userView = new UserView(userService, scanner);
@@ -48,28 +53,30 @@ public class App {
             }
 
             System.out.println("\nWelcome, " + currentUser.getUsername() + " (" + currentUser.getRole() + ")");
-            dashBoard();
+            dashboard();
             System.out.println("\nLogout " + currentUser.getUsername() + ".");
         }
     }
 
-    private void dashBoard() {
+    private void dashboard() {
 
         while (true) {
             System.out.println("\n----- Dashboard -----");
             System.out.println("1. Song Management");
             System.out.println("2. Artist Management");
             System.out.println("3. Album Management");
-            System.out.println("4. User Management");
+            System.out.println("4. Playlist Management");
+            System.out.println("5. User Management");
             System.out.println("0. Logout");
 
             int choice = getIntPrompt("Choose an option: ");
 
             switch (choice) {
-                case 1 -> songView.handleSongMenu();
-                case 2 -> artistView.handleArtistMenu();
-                case 3 -> albumView.handleAlbumMenu();
-                case 4 -> userView.handleUserMenu();
+                case 1 -> songView.handleMenu();
+                case 2 -> artistView.handleMenu();
+                case 3 -> albumView.handleMenu();
+                case 4 -> playlistView.handleMenu();
+                case 5 -> userView.handleMenu();
                 case 0 -> {
                     return;
                 }

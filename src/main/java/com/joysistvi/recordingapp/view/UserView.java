@@ -16,28 +16,32 @@ public class UserView {
         this.scanner = scanner;
     }
 
-    public void handleUserMenu() {
+    public void handleMenu() {
 
         while (true) {
             System.out.println("\n----- Manage Users -----");
-            System.out.println("1. View all users");
-            System.out.println("2. Update user");
-            System.out.println("3. Search user");
-            System.out.println("4. Archive user");
-            System.out.println("5. Restore user");
-            System.out.println("6. Delete user");
+            System.out.println("1. View All Users");
+            System.out.println("2. Register User");
+            System.out.println("3. Update User");
+            System.out.println("4. Search User");
+            System.out.println("5. Archive User");
+            System.out.println("6. Restore User");
+            System.out.println("7. Delete User");
             System.out.println("0. Back");
 
             int choice = getIntPrompt("Choose an option: ");
             switch (choice) {
                 case 1 -> displayAllUsers();
-                case 2 -> promptUpdateUser();
-                case 3 -> promptSearchUsers();
-                case 4 -> promptArchiveUser();
-                case 5 -> promptRestoreUser();
-                case 6 -> promptDeleteUser();
-                case 0 -> {return;}
-                default -> System.out.println("Invalid choice. Please try again.");
+                case 2 -> promptCreateUser();
+                case 3 -> promptUpdateUser();
+                case 4 -> promptSearchUsers();
+                case 5 -> promptArchiveUser();
+                case 6 -> promptRestoreUser();
+                case 7 -> promptDeleteUser();
+                case 0 -> {
+                    return;
+                }
+                default -> System.out.println("Invalid option. Please try again.");
             }
         }
     }

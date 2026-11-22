@@ -15,17 +15,17 @@ public class SongView {
         this.scanner = scanner;
     }
 
-    public void handleSongMenu() {
+    public void handleMenu() {
 
         while (true) {
             System.out.println("\n----- Manage Songs -----");
-            System.out.println("1. View all songs");
-            System.out.println("2. Create new song");
-            System.out.println("3. Update song");
-            System.out.println("4. Search song");
-            System.out.println("5. Archive song");
-            System.out.println("6. Restore song");
-            System.out.println("7. Delete song");
+            System.out.println("1. View All Songs");
+            System.out.println("2. Create Song");
+            System.out.println("3. Update Song");
+            System.out.println("4. Search Song");
+            System.out.println("5. Archive Song");
+            System.out.println("6. Restore Song");
+            System.out.println("7. Delete Song");
             System.out.println("0. Back");
 
             int choice = getIntPrompt("Choose an option: ");
@@ -37,8 +37,10 @@ public class SongView {
                 case 5 -> promptArchiveSong();
                 case 6 -> promptRestoreSong();
                 case 7 -> promptDeleteSong();
-                case 0 -> {return;}
-                default -> System.out.println("Invalid choice. Please try again.");
+                case 0 -> {
+                    return;
+                }
+                default -> System.out.println("Invalid option. Please try again.");
             }
         }
     }

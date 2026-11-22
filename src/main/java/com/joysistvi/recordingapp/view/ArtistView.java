@@ -16,17 +16,17 @@ public class ArtistView {
         this.scanner = scanner;
     }
 
-    public void handleArtistMenu() {
+    public void handleMenu() {
 
         while (true) {
             System.out.println("\n----- Manage Artists -----");
-            System.out.println("1. View all artists");
-            System.out.println("2. Create new artist");
-            System.out.println("3. Update artist");
-            System.out.println("4. Search artist");
-            System.out.println("5. Archive artist");
-            System.out.println("6. Restore artist");
-            System.out.println("7. Delete artist");
+            System.out.println("1. View All Artists");
+            System.out.println("2. Create Artist");
+            System.out.println("3. Update Artist");
+            System.out.println("4. Search Artist");
+            System.out.println("5. Archive Artist");
+            System.out.println("6. Restore Artist");
+            System.out.println("7. Delete Artist");
             System.out.println("0. Back");
 
             int choice = getIntPrompt("Choose an option: ");
@@ -38,8 +38,10 @@ public class ArtistView {
                 case 5 -> promptArchiveArtist();
                 case 6 -> promptRestoreArtist();
                 case 7 -> promptDeleteArtist();
-                case 0 -> {return;}
-                default -> System.out.println("Invalid choice. Please try again.");
+                case 0 -> {
+                    return;
+                }
+                default -> System.out.println("Invalid option. Please try again.");
             }
         }
     }
@@ -68,9 +70,9 @@ public class ArtistView {
         boolean created = artistService.createArtist(name);
 
         if (created) {
-            System.out.println("Artist" + name.trim() + "created successfully.");
+            System.out.println("Artist " + name.trim() + " created successfully.");
         } else {
-            System.out.println("Artist" + name.trim() + "failed to create.");
+            System.out.println("Artist " + name.trim() + " failed to create.");
         }
     }
 
