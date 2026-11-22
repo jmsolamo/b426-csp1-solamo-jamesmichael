@@ -33,6 +33,7 @@ public class UserRepositoryImpl implements UserRepository {
             while (resultSet.next()) {
 
                 User user = new User(
+                        resultSet.getInt("id"),
                         resultSet.getString("username"),
                         resultSet.getString("password"),
                         resultSet.getString("email"),
@@ -65,6 +66,7 @@ public class UserRepositoryImpl implements UserRepository {
             while (resultSet.next()) {
 
                 User user = new User(
+                        resultSet.getInt("id"),
                         resultSet.getString("username"),
                         resultSet.getString("password"),
                         resultSet.getString("email"),

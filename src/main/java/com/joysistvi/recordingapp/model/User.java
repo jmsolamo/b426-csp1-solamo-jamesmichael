@@ -9,16 +9,15 @@ public class User {
     private String role;
     private boolean archived;
 
-    public User(String username, String password, String email, String role) {
+    public User(int id, String username, String password, String email, String role) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
         this.role = role;
-        this.archived = archived;
     }
 
-    public User(String username, String password, String email, String role, boolean archived) {
+    public User(String username, String password, String email, String role) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -71,17 +70,5 @@ public class User {
 
     public void setArchived(boolean archived) {
         this.archived = archived;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", role='" + role + '\'' +
-                ", archived=" + archived +
-                '}';
     }
 }

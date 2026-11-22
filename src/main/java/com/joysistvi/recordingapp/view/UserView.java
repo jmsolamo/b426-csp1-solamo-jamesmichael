@@ -23,9 +23,7 @@ public class UserView {
             return;
         }
 
-        System.out.println("\n" + "=".repeat(95));
         System.out.printf("%-8s %-25s %-35s %-15s %-10s%n", "ID", "USERNAME", "EMAIL", "ROLE", "STATUS");
-        System.out.println("=".repeat(95));
 
         for (User user : users) {
             System.out.printf("%-8d %-25s %-35s %-15s %-10s%n",
@@ -35,8 +33,6 @@ public class UserView {
                     user.getRole(),
                     user.isArchived() ? "Archived" : "Active");
         }
-
-        System.out.println("=".repeat(95));
     }
 
     public void promptCreateUser() {
@@ -102,10 +98,9 @@ public class UserView {
 
     public void promptArchiveUser() {
 
-        System.out.println("\n----- Archive User ------");
-
-        displayAllUsers();
-
+        System.out.println("\n----- Archive Users -----");
+        List<User> users = userService.getAllActiveUsers();
+        displayUserTable(users);
         int id = getIntPrompt("Enter User ID to archive: ");
 
         if (id <= 0) {
@@ -190,7 +185,7 @@ public class UserView {
         }
     }
 
-    public void promptLoginUser() {
+    public User promptLoginUser() {
 
         System.out.println("\n----- User Login -----");
 
@@ -200,12 +195,13 @@ public class UserView {
         User user = userService.loginUser(username, password);
 
         if (user != null) {
-            System.out.println("\n========== LOGIN DETAILS ==========");
+            System.out.println("\n\n----- Login Details -----");
             System.out.println("User ID : " + user.getId());
             System.out.println("Username: " + user.getUsername());
             System.out.println("Email   : " + user.getEmail());
             System.out.println("Role    : " + user.getRole());
         }
+        return user;
     }
 
     private String getStringPrompt(String message) {

@@ -84,18 +84,6 @@ public class Album {
         this.archived = archived;
     }
 
-    @Override
-    public String toString() {
-        return "Album{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", year=" + year +
-                ", artistId=" + artistId +
-                ", artistName='" + artistName + '\'' +
-                ", archived=" + archived +
-                '}';
-    }
-
     //            "Brand: " + brand +
     //            "\nColor: " + color +
     //            "\nWeight in grams: " + weightInGrams + "g";
