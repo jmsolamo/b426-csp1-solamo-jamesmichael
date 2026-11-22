@@ -16,6 +16,32 @@ public class UserView {
         this.scanner = scanner;
     }
 
+    public void handleUserMenu() {
+
+        while (true) {
+            System.out.println("\n----- Manage Users -----");
+            System.out.println("1. View all users");
+            System.out.println("2. Update user");
+            System.out.println("3. Search user");
+            System.out.println("4. Archive user");
+            System.out.println("5. Restore user");
+            System.out.println("6. Delete user");
+            System.out.println("0. Back");
+
+            int choice = getIntPrompt("Choose an option: ");
+            switch (choice) {
+                case 1 -> displayAllUsers();
+                case 2 -> promptUpdateUser();
+                case 3 -> promptSearchUsers();
+                case 4 -> promptArchiveUser();
+                case 5 -> promptRestoreUser();
+                case 6 -> promptDeleteUser();
+                case 0 -> {return;}
+                default -> System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
     private void displayUserTable(List<User> users) {
 
         if (users == null || users.isEmpty()) {

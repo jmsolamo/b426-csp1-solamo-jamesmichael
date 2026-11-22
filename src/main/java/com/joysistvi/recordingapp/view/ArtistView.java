@@ -16,6 +16,34 @@ public class ArtistView {
         this.scanner = scanner;
     }
 
+    public void handleArtistMenu() {
+
+        while (true) {
+            System.out.println("\n----- Manage Artists -----");
+            System.out.println("1. View all artists");
+            System.out.println("2. Create new artist");
+            System.out.println("3. Update artist");
+            System.out.println("4. Search artist");
+            System.out.println("5. Archive artist");
+            System.out.println("6. Restore artist");
+            System.out.println("7. Delete artist");
+            System.out.println("0. Back");
+
+            int choice = getIntPrompt("Choose an option: ");
+            switch (choice) {
+                case 1 -> displayAllArtists();
+                case 2 -> promptCreateArtist();
+                case 3 -> promptUpdateArtist();
+                case 4 -> promptSearchArtists();
+                case 5 -> promptArchiveArtist();
+                case 6 -> promptRestoreArtist();
+                case 7 -> promptDeleteArtist();
+                case 0 -> {return;}
+                default -> System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
     public void displayAllArtists() {
 
         List<Artist> artists = artistService.getAllActiveArtists();

@@ -6,9 +6,9 @@ import com.joysistvi.recordingapp.repository.*;
 import com.joysistvi.recordingapp.service.*;
 import com.joysistvi.recordingapp.view.AlbumView;
 import com.joysistvi.recordingapp.view.ArtistView;
+import com.joysistvi.recordingapp.view.SongView;
 import com.joysistvi.recordingapp.view.UserView;
 import java.util.Scanner;
-
 
 // Entry Point
 public class App {
@@ -24,6 +24,10 @@ public class App {
     AlbumService albumService = new AlbumServiceImpl(albumRepository);
     AlbumView albumView = new AlbumView(albumService, scanner);
 
+    SongRepository songRepository = new SongRepositoryImpl(dbConnection);
+    SongService songService = new SongServiceImpl(songRepository);
+    SongView songView = new SongView(songService, scanner);
+
     UserRepository userRepository = new UserRepositoryImpl(dbConnection);
     UserService userService = new UserServiceImpl(userRepository);
     UserView userView = new UserView(userService, scanner);
@@ -32,10 +36,6 @@ public class App {
 
         App app = new App();
         app.run();
-
-
-
-
     }
 
     public void run() {
@@ -49,26 +49,32 @@ public class App {
 
             System.out.println("\nWelcome, " + currentUser.getUsername() + " (" + currentUser.getRole() + ")");
             dashBoard();
-            System.out.println("\nLogout " + currentUser.getUsername() +".");
+            System.out.println("\nLogout " + currentUser.getUsername() + ".");
         }
     }
 
     private void dashBoard() {
-        System.out.println("\n----- Dashboard -----");
-        System.out.println("1. Song Management");
-        System.out.println("2. Artist Management");
-        System.out.println("3. Album Management");
-        System.out.println("4. User Management");
-        System.out.println("0. Back");
 
-        int choice = getIntPrompt("Choose an option: ");
+        while (true) {
+            System.out.println("\n----- Dashboard -----");
+            System.out.println("1. Song Management");
+            System.out.println("2. Artist Management");
+            System.out.println("3. Album Management");
+            System.out.println("4. User Management");
+            System.out.println("0. Logout");
 
-        switch (choice) {
-            //case 1 -> handleSongMenu();
-            //case 2 -> handleArtistMenu();
-            case 3 -> albumView.handleAlbumMenu();
-            //case 4 -> handleUserMenu();
-            case 0 -> {return;}
+            int choice = getIntPrompt("Choose an option: ");
+
+            switch (choice) {
+                case 1 -> songView.handleSongMenu();
+                case 2 -> artistView.handleArtistMenu();
+                case 3 -> albumView.handleAlbumMenu();
+                case 4 -> userView.handleUserMenu();
+                case 0 -> {
+                    return;
+                }
+                default -> System.out.println("Invalid choice. Please try again.");
+            }
         }
     }
 
