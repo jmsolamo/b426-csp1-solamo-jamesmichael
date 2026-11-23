@@ -18,6 +18,7 @@ public class AlbumView {
     public void handleMenu() {
 
         while (true) {
+            clearScreen();
             System.out.println("\n----- Manage Albums -----");
             System.out.println("1. View All Albums");
             System.out.println("2. Create Album");
@@ -54,6 +55,7 @@ public class AlbumView {
 
         if (albums == null || albums.isEmpty()) {
             System.out.println("No active albums found.");
+            pressEnterToContinue();
             return;
         }
 
@@ -64,6 +66,7 @@ public class AlbumView {
                     album.getYear(),
                     album.getArtistName());
         }
+        pressEnterToContinue();
     }
 
     public void promptCreateAlbum() {
@@ -79,12 +82,13 @@ public class AlbumView {
         } else {
             System.out.println("Failed to create album.");
         }
+        pressEnterToContinue();
     }
 
     public void promptUpdateAlbum() {
 
         System.out.println("\n----- Update Album -----");
-        displayAllAlbums();
+        displayAllAlbumsNoWait();
         int id = getIntPrompt("\nEnter album ID to update: ");
         String name = getStringPrompt("Enter new album name: ");
         int year = getIntPrompt("Enter new release year: ");
@@ -96,12 +100,13 @@ public class AlbumView {
         } else {
             System.out.println("Failed to update album.");
         }
+        pressEnterToContinue();
     }
 
     public void promptDeleteAlbum() {
 
         System.out.println("\n----- Delete Album -----");
-        displayAllAlbums();
+        displayAllAlbumsNoWait();
         int id = getIntPrompt("\nEnter album ID to delete: ");
         boolean deleted = albumService.deleteAlbum(id);
 
@@ -110,12 +115,13 @@ public class AlbumView {
         } else {
             System.out.println("Failed to delete album.");
         }
+        pressEnterToContinue();
     }
 
     public void promptArchiveAlbum() {
 
         System.out.println("\n----- Archive Album -----");
-        displayAllAlbums();
+        displayAllAlbumsNoWait();
         int id = getIntPrompt("Enter album ID to archive: ");
         boolean archived = albumService.archiveAlbum(id);
 
@@ -124,6 +130,7 @@ public class AlbumView {
         } else {
             System.out.println("Failed to archive album.");
         }
+        pressEnterToContinue();
     }
 
     public void promptRestoreAlbum() {
@@ -134,6 +141,7 @@ public class AlbumView {
 
         if (albums == null || albums.isEmpty()) {
             System.out.println("No archived albums found.");
+            pressEnterToContinue();
             return;
         }
 
@@ -153,6 +161,7 @@ public class AlbumView {
         } else {
             System.out.println("Failed to restore album.");
         }
+        pressEnterToContinue();
     }
 
     public void promptSearchAlbums() {
@@ -163,9 +172,27 @@ public class AlbumView {
         System.out.printf("%-5s %-25s %-8s %-12s%n", "ID", "Album Name", "Year", "Artist");
         if (albums == null || albums.isEmpty()) {
             System.out.println("No matching albums found.");
+            pressEnterToContinue();
             return;
         }
 
+        for (Album album : albums) {
+            System.out.printf("%-5d %-25s %-8d %-12s%n",
+                    album.getId(),
+                    album.getName(),
+                    album.getYear(),
+                    album.getArtistName());
+        }
+        pressEnterToContinue();
+    }
+
+    private void displayAllAlbumsNoWait() {
+        List<Album> albums = albumService.getAllActiveAlbums();
+        System.out.printf("%-5s %-25s %-8s %-12s%n", "ID", "Album Name", "Year", "Artist");
+        if (albums == null || albums.isEmpty()) {
+            System.out.println("No active albums found.");
+            return;
+        }
         for (Album album : albums) {
             System.out.printf("%-5d %-25s %-8d %-12s%n",
                     album.getId(),
@@ -191,5 +218,15 @@ public class AlbumView {
                 System.out.println("Invalid input. Please enter a valid number.");
             }
         }
+    }
+
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
+    public void pressEnterToContinue() {
+        System.out.print("\nPress Enter to continue...");
+        scanner.nextLine();
     }
 }

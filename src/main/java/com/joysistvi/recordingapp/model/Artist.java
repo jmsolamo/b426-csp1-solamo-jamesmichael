@@ -1,6 +1,5 @@
 package com.joysistvi.recordingapp.model;
 
-// Model (Presentation Tier) -> representing database entities
 public class Artist {
 
     private int id;

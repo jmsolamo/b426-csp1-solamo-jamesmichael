@@ -6,7 +6,6 @@ import com.joysistvi.recordingapp.repository.ArtistRepository;
 import java.util.Collections;
 import java.util.List;
 
-// Application Tier: Business Rule / Validation
 public class ArtistServiceImpl implements ArtistService {
 
     private final ArtistRepository artistRepository;

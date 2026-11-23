@@ -19,6 +19,7 @@ public class ArtistView {
     public void handleMenu() {
 
         while (true) {
+            clearScreen();
             System.out.println("\n----- Manage Artists -----");
             System.out.println("1. View All Artists");
             System.out.println("2. Create Artist");
@@ -55,12 +56,14 @@ public class ArtistView {
 
         if (artists == null || artists.isEmpty()) {
             System.out.println("No active artists found.");
+            pressEnterToContinue();
             return;
         }
 
         for (Artist artist : artists) {
             System.out.printf("%-4s %-20s%n", artist.getId(), artist.getName());
         }
+        pressEnterToContinue();
     }
 
     public void promptCreateArtist() {
@@ -74,13 +77,14 @@ public class ArtistView {
         } else {
             System.out.println("Artist " + name.trim() + " failed to create.");
         }
+        pressEnterToContinue();
     }
 
     public void promptUpdateArtist() {
 
         System.out.println("\n----- Update Artist -----");
 
-        displayAllArtists();
+        displayAllArtistsNoWait();
 
         int id = getIntPrompt("Enter artist ID to update: ");
         String name = getStringPrompt("Enter new artist name: ");
@@ -91,13 +95,14 @@ public class ArtistView {
         } else {
             System.out.println("Failed to update artist.");
         }
+        pressEnterToContinue();
     }
 
     public void promptDeleteArtist() {
 
         System.out.println("\n----- Delete Artist -----");
 
-        displayAllArtists();
+        displayAllArtistsNoWait();
 
         int id = getIntPrompt("Enter artist ID to delete: ");
         boolean deleted = artistService.deleteArtist(id);
@@ -107,13 +112,14 @@ public class ArtistView {
         } else {
             System.out.println("Failed to delete artist.");
         }
+        pressEnterToContinue();
     }
 
     public void promptArchiveArtist() {
 
         System.out.println("\n----- Archive Artist -----");
 
-        displayAllArtists();
+        displayAllArtistsNoWait();
 
         int id = getIntPrompt("Enter artist ID to archive: ");
         boolean archived = artistService.archiveArtist(id);
@@ -123,6 +129,7 @@ public class ArtistView {
         } else {
             System.out.println("Failed to archive artist.");
         }
+        pressEnterToContinue();
     }
 
     public void promptRestoreArtist() {
@@ -133,6 +140,7 @@ public class ArtistView {
 
         if (artists == null || artists.isEmpty()) {
             System.out.println("No archived artists found.");
+            pressEnterToContinue();
             return;
         }
 
@@ -150,6 +158,7 @@ public class ArtistView {
         } else {
             System.out.println("Failed to restore artist.");
         }
+        pressEnterToContinue();
     }
 
     public void promptSearchArtists() {
@@ -161,6 +170,7 @@ public class ArtistView {
 
         if (artists == null || artists.isEmpty()) {
             System.out.println("No matching artists found.");
+            pressEnterToContinue();
             return;
         }
 
@@ -168,6 +178,19 @@ public class ArtistView {
             System.out.printf("%-5d %-25s%n",
                     artist.getId(),
                     artist.getName());
+        }
+        pressEnterToContinue();
+    }
+
+    private void displayAllArtistsNoWait() {
+        List<Artist> artists = artistService.getAllActiveArtists();
+        System.out.printf("%-4s %-20s%n", "ID", "Artist Name");
+        if (artists == null || artists.isEmpty()) {
+            System.out.println("No active artists found.");
+            return;
+        }
+        for (Artist artist : artists) {
+            System.out.printf("%-4s %-20s%n", artist.getId(), artist.getName());
         }
     }
 
@@ -185,5 +208,15 @@ public class ArtistView {
                 System.out.println("Invalid input. Please enter a valid number.");
             }
         }
+    }
+
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
+    public void pressEnterToContinue() {
+        System.out.print("\nPress Enter to continue...");
+        scanner.nextLine();
     }
 }

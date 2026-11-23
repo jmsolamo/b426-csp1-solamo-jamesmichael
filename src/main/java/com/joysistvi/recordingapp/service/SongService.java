@@ -4,7 +4,6 @@ import com.joysistvi.recordingapp.model.Song;
 import java.util.List;
 
 public interface SongService {
-
     List<Song> getAllActiveSongs();
     List<Song> getAllArchivedSongs();
     boolean createSong(String title, String genre, String length, int albumId);

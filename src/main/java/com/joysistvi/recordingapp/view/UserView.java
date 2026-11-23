@@ -19,6 +19,7 @@ public class UserView {
     public void handleMenu() {
 
         while (true) {
+            clearScreen();
             System.out.println("\n----- Manage Users -----");
             System.out.println("1. View All Users");
             System.out.println("2. Register User");
@@ -79,6 +80,7 @@ public class UserView {
         } else {
             System.out.println("Failed to register user.");
         }
+        pressEnterToContinue();
     }
 
     public void displayAllUsers() {
@@ -88,18 +90,20 @@ public class UserView {
         List<User> users = userService.getAllActiveUsers();
 
         displayUserTable(users);
+        pressEnterToContinue();
     }
 
     public void promptUpdateUser() {
 
         System.out.println("\n----- Update User -----");
 
-        displayAllUsers();
+        displayAllUsersNoWait();
 
         int id = getIntPrompt("Enter User ID to update: ");
 
         if (id <= 0) {
             System.out.println("Invalid User ID.");
+            pressEnterToContinue();
             return;
         }
 
@@ -113,6 +117,7 @@ public class UserView {
         } else {
             System.out.println("Failed to update user.");
         }
+        pressEnterToContinue();
     }
 
     public void promptSearchUsers() {
@@ -124,6 +129,7 @@ public class UserView {
         List<User> users = userService.searchUsers(keyword);
 
         displayUserTable(users);
+        pressEnterToContinue();
     }
 
     public void promptArchiveUser() {
@@ -135,6 +141,7 @@ public class UserView {
 
         if (id <= 0) {
             System.out.println("Invalid User ID.");
+            pressEnterToContinue();
             return;
         }
 
@@ -144,6 +151,7 @@ public class UserView {
 
         if (!confirmation.equalsIgnoreCase("Y")) {
             System.out.println("Archive operation cancelled.");
+            pressEnterToContinue();
             return;
         }
 
@@ -154,6 +162,7 @@ public class UserView {
         } else {
             System.out.println("Failed to archive user.");
         }
+        pressEnterToContinue();
     }
 
     public void promptRestoreUser() {
@@ -165,6 +174,7 @@ public class UserView {
         displayUserTable(archivedUsers);
 
         if (archivedUsers == null || archivedUsers.isEmpty()) {
+            pressEnterToContinue();
             return;
         }
 
@@ -172,6 +182,7 @@ public class UserView {
 
         if (id <= 0) {
             System.out.println("Invalid User ID.");
+            pressEnterToContinue();
             return;
         }
 
@@ -182,18 +193,20 @@ public class UserView {
         } else {
             System.out.println("Failed to restore user.");
         }
+        pressEnterToContinue();
     }
 
     public void promptDeleteUser() {
 
         System.out.println("\n----- Delete User ------");
 
-        displayAllUsers();
+        displayAllUsersNoWait();
 
         int id = getIntPrompt("Enter User ID to permanently delete: ");
 
         if (id <= 0) {
             System.out.println("Invalid User ID.");
+            pressEnterToContinue();
             return;
         }
 
@@ -203,6 +216,7 @@ public class UserView {
 
         if (!confirmation.equalsIgnoreCase("Y")) {
             System.out.println("Delete operation cancelled.");
+            pressEnterToContinue();
             return;
         }
 
@@ -213,6 +227,7 @@ public class UserView {
         } else {
             System.out.println("Failed to delete user.");
         }
+        pressEnterToContinue();
     }
 
     public User promptLoginUser() {
@@ -223,15 +238,13 @@ public class UserView {
         String password = getStringPrompt("Enter Password: ");
 
         User user = userService.loginUser(username, password);
-
-        if (user != null) {
-            System.out.println("\n\n----- Login Details -----");
-            System.out.println("User ID : " + user.getId());
-            System.out.println("Username: " + user.getUsername());
-            System.out.println("Email   : " + user.getEmail());
-            System.out.println("Role    : " + user.getRole());
-        }
         return user;
+    }
+
+    private void displayAllUsersNoWait() {
+        System.out.println("\n----- Active Users -----");
+        List<User> users = userService.getAllActiveUsers();
+        displayUserTable(users);
     }
 
     private String getStringPrompt(String message) {
@@ -248,5 +261,15 @@ public class UserView {
                 System.out.println("Invalid input. Please enter a valid number.");
             }
         }
+    }
+
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
+    public void pressEnterToContinue() {
+        System.out.print("\nPress Enter to continue...");
+        scanner.nextLine();
     }
 }

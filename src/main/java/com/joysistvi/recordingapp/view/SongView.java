@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class SongView {
-
     private final SongService songService;
     private final Scanner scanner;
 
@@ -16,186 +15,203 @@ public class SongView {
     }
 
     public void handleMenu() {
-
         while (true) {
-            System.out.println("\n----- Manage Songs -----");
-            System.out.println("1. View All Songs");
+            clearScreen();
+            System.out.println("\n----- Song Management -----");
+            System.out.println("1. View All Active Songs");
             System.out.println("2. Create Song");
             System.out.println("3. Update Song");
-            System.out.println("4. Search Song");
+            System.out.println("4. Search Songs");
             System.out.println("5. Archive Song");
             System.out.println("6. Restore Song");
             System.out.println("7. Delete Song");
             System.out.println("0. Back");
 
-            int choice = getIntPrompt("Choose an option: ");
+            int choice = promptForInt("Choose an option: ");
             switch (choice) {
-                case 1 -> displayAllSongs();
-                case 2 -> promptCreateSong();
-                case 3 -> promptUpdateSong();
-                case 4 -> promptSearchSongs();
-                case 5 -> promptArchiveSong();
-                case 6 -> promptRestoreSong();
-                case 7 -> promptDeleteSong();
-                case 0 -> {
+                case 1:
+                    displayAllSongs();
+                    break;
+                case 2:
+                    promptCreateSong();
+                    break;
+                case 3:
+                    promptUpdateSong();
+                    break;
+                case 4:
+                    promptSearchSongs();
+                    break;
+                case 5:
+                    promptArchiveSong();
+                    break;
+                case 6:
+                    promptRestoreSong();
+                    break;
+                case 7:
+                    promptDeleteSong();
+                    break;
+                case 0:
                     return;
-                }
-                default -> System.out.println("Invalid option. Please try again.");
+                default:
+                    System.out.println("Invalid option. Please try again.");
+                    break;
             }
         }
     }
 
     public void displayAllSongs() {
-
-        List<Song> songs = songService.getAllActiveSongs();
-
-        System.out.println("\n----- Active Songs -----");
-        System.out.printf("%-5s %-25s %-15s %-10s %-20s%n", "ID", "Title", "Genre", "Length", "Album");
-
-        if (songs == null || songs.isEmpty()) {
-            System.out.println("No active songs found.");
-            return;
-        }
-
-        for (Song song : songs) {
-            System.out.printf("%-5d %-25s %-15s %-10s %-20s%n",
-                    song.getId(),
-                    song.getTitle(),
-                    song.getGenre(),
-                    song.getLength(),
-                    song.getAlbumName());
-        }
+        printSongListTable("----- Active Songs -----", songService.getAllActiveSongs());
+        pressEnterToContinue();
     }
 
     public void promptCreateSong() {
+        System.out.println("\n--- Create Song ---");
+        System.out.print("Enter song title: ");
+        String title = scanner.nextLine();
+        System.out.print("Enter genre: ");
+        String genre = scanner.nextLine();
+        System.out.print("Enter length (e.g. 3:45): ");
+        String length = scanner.nextLine();
+        int albumId = promptForInt("Enter album ID: ");
 
-        System.out.println("\n----- Create New Song -----");
-        String title = getStringPrompt("Enter song title: ");
-        String genre = getStringPrompt("Enter song genre: ");
-        String length = getStringPrompt("Enter song length (e.g. 3:45): ");
-        int albumId = getIntPrompt("Enter album ID: ");
-        boolean created = songService.createSong(title, genre, length, albumId);
-
-        if (created) {
+        if (songService.createSong(title, genre, length, albumId)) {
             System.out.println("Song created successfully.");
         } else {
             System.out.println("Failed to create song.");
         }
+        pressEnterToContinue();
     }
 
     public void promptUpdateSong() {
+        System.out.println("\n--- Update Song ---");
+        int id = promptForInt("Enter song ID to update: ");
+        System.out.print("Enter new song title: ");
+        String title = scanner.nextLine();
+        System.out.print("Enter new genre: ");
+        String genre = scanner.nextLine();
+        System.out.print("Enter new length (e.g. 3:45): ");
+        String length = scanner.nextLine();
+        int albumId = promptForInt("Enter new album ID: ");
 
-        System.out.println("\n----- Update Song -----");
-        displayAllSongs();
-        int id = getIntPrompt("\nEnter song ID to update: ");
-        String title = getStringPrompt("Enter new song title: ");
-        String genre = getStringPrompt("Enter new song genre: ");
-        String length = getStringPrompt("Enter new song length (e.g. 3:45): ");
-        int albumId = getIntPrompt("Enter new album ID: ");
-        boolean updated = songService.updateSong(id, title, genre, length, albumId);
-
-        if (updated) {
+        if (songService.updateSong(id, title, genre, length, albumId)) {
             System.out.println("Song updated successfully.");
         } else {
             System.out.println("Failed to update song.");
         }
+        pressEnterToContinue();
     }
 
-    public void promptDeleteSong() {
-
-        System.out.println("\n----- Delete Song -----");
-        displayAllSongs();
-        int id = getIntPrompt("\nEnter song ID to delete: ");
-        boolean deleted = songService.deleteSong(id);
-
-        if (deleted) {
-            System.out.println("Song deleted successfully.");
-        } else {
-            System.out.println("Failed to delete song.");
-        }
+    public void promptSearchSongs() {
+        System.out.println("\n--- Search Songs ---");
+        System.out.print("Enter keyword: ");
+        String keyword = scanner.nextLine();
+        printSongListTable("----- Search Results -----", songService.searchSongs(keyword));
+        pressEnterToContinue();
     }
 
     public void promptArchiveSong() {
-
-        System.out.println("\n----- Archive Song -----");
-        displayAllSongs();
-        int id = getIntPrompt("Enter song ID to archive: ");
-        boolean archived = songService.archiveSong(id);
-
-        if (archived) {
+        System.out.println("\n--- Archive Song ---");
+        int id = promptForInt("Enter song ID to archive: ");
+        if (songService.archiveSong(id)) {
             System.out.println("Song archived successfully.");
         } else {
             System.out.println("Failed to archive song.");
         }
+        pressEnterToContinue();
     }
 
     public void promptRestoreSong() {
-
-        System.out.println("\n----- Restore Song -----");
-        List<Song> songs = songService.getAllArchivedSongs();
-        System.out.printf("%-5s %-25s %-15s %-10s %-20s%n", "ID", "Title", "Genre", "Length", "Album");
-
-        if (songs == null || songs.isEmpty()) {
+        System.out.println("\n--- Restore Song ---");
+        List<Song> archived = songService.getAllArchivedSongs();
+        if (archived.isEmpty()) {
             System.out.println("No archived songs found.");
+            pressEnterToContinue();
             return;
         }
-
-        for (Song song : songs) {
-            System.out.printf("%-5d %-25s %-15s %-10s %-20s%n",
-                    song.getId(),
-                    song.getTitle(),
-                    song.getGenre(),
-                    song.getLength(),
-                    song.getAlbumName());
-        }
-
-        int id = getIntPrompt("Enter song ID to restore: ");
-        boolean restored = songService.restoreSong(id);
-
-        if (restored) {
+        printSongListTable("----- Archived Songs -----", archived);
+        int id = promptForInt("Enter song ID to restore: ");
+        if (songService.restoreSong(id)) {
             System.out.println("Song restored successfully.");
         } else {
             System.out.println("Failed to restore song.");
         }
+        pressEnterToContinue();
     }
 
-    public void promptSearchSongs() {
+    public void promptDeleteSong() {
+        System.out.println("\n--- Delete Song ---");
+        int id = promptForInt("Enter song ID to delete permanently: ");
+        if (songService.deleteSong(id)) {
+            System.out.println("Song deleted successfully.");
+        } else {
+            System.out.println("Failed to delete song.");
+        }
+        pressEnterToContinue();
+    }
 
-        System.out.println("\n----- Search Songs -----");
-        String keyword = getStringPrompt("Enter song title or keyword: ");
-        List<Song> songs = songService.searchSongs(keyword);
-        System.out.printf("%-5s %-25s %-15s %-10s %-20s%n", "ID", "Title", "Genre", "Length", "Album");
+    private void printSongListTable(String header, List<Song> songs) {
+        String border = "+-------+------------------------+-----------------+----------+----------------------+";
+
+        System.out.println("\n" + header);
+        System.out.println(border);
+        System.out.printf("| %-5s | %-22s | %-15s | %-8s | %-20s |%n",
+                "ID", "Title", "Genre", "Length", "Album");
+        System.out.println(border);
 
         if (songs == null || songs.isEmpty()) {
-            System.out.println("No matching songs found.");
+            System.out.printf("| %-84s |%n", truncate("No songs found.", 84));
+            System.out.println(border);
             return;
         }
 
-        for (Song song : songs) {
-            System.out.printf("%-5d %-25s %-15s %-10s %-20s%n",
-                    song.getId(),
-                    song.getTitle(),
-                    song.getGenre(),
-                    song.getLength(),
-                    song.getAlbumName());
+        for (Song s : songs) {
+            String title = s.getTitle() != null ? s.getTitle() : "";
+            String genre = s.getGenre() != null ? s.getGenre() : "";
+            String album = s.getAlbumName() != null ? s.getAlbumName() : "";
+
+            System.out.printf("| %-5d | %-22s | %-15s | %-8s | %-20s |%n",
+                    s.getId(),
+                    truncate(title, 22),
+                    truncate(genre, 15),
+                    s.getLength(),
+                    truncate(album, 20));
         }
+
+        System.out.println(border);
     }
 
-    private String getStringPrompt(String message) {
-        System.out.print(message);
-        return scanner.nextLine().trim();
+    private String truncate(String text, int maxLength) {
+        if (text == null) {
+            return "";
+        }
+        if (text.length() <= maxLength) {
+            return text;
+        }
+        if (maxLength <= 3) {
+            return text.substring(0, maxLength);
+        }
+        return text.substring(0, maxLength - 3) + "...";
     }
 
-    private int getIntPrompt(String message) {
-
+    private int promptForInt(String promptMessage) {
         while (true) {
+            System.out.print(promptMessage);
+            String input = scanner.nextLine().trim();
             try {
-                System.out.print(message);
-                return Integer.parseInt(scanner.nextLine().trim());
-
+                return Integer.parseInt(input);
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please enter a valid number.");
             }
         }
+    }
+
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
+    public void pressEnterToContinue() {
+        System.out.print("\nPress Enter to continue...");
+        scanner.nextLine();
     }
 }

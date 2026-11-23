@@ -10,14 +10,12 @@ public class Album {
     private String artistName;
     private boolean archived;
 
-    // Constructor for creating a new album
     public Album(String name, int year, int artistId) {
         this.name = name;
         this.year = year;
         this.artistId = artistId;
     }
 
-    // Constructor for retrieving an album
     public Album(int id, String name, int year, int artistId) {
         this.id = id;
         this.name = name;
@@ -25,7 +23,6 @@ public class Album {
         this.artistId = artistId;
     }
 
-    // Constructor for retrieving an album with joined artist information
     public Album(int id, String name, int year, int artistId, String artistName, boolean archived) {
         this.id = id;
         this.name = name;
@@ -35,7 +32,6 @@ public class Album {
         this.archived = archived;
     }
 
-    // Getters and Setters
     public int getId() {
         return id;
     }
@@ -84,7 +80,4 @@ public class Album {
         this.archived = archived;
     }
 
-    //            "Brand: " + brand +
-    //            "\nColor: " + color +
-    //            "\nWeight in grams: " + weightInGrams + "g";
 }

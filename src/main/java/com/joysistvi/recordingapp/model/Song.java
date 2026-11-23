@@ -1,7 +1,6 @@
 package com.joysistvi.recordingapp.model;
 
 public class Song {
-
     private int id;
     private String title;
     private String genre;
@@ -10,24 +9,18 @@ public class Song {
     private String albumName;
     private boolean archived;
 
-    // Constructor for creating a new song
-    public Song(String title, String genre, String length, int albumId) {
-        this.title = title;
-        this.genre = genre;
-        this.length = length;
-        this.albumId = albumId;
+    public Song() {
     }
 
-    // Constructor for retrieving a song without join
-    public Song(int id, String title, String genre, String length, int albumId) {
+    public Song(int id, String title, String genre, String length, int albumId, String albumName) {
         this.id = id;
         this.title = title;
         this.genre = genre;
         this.length = length;
         this.albumId = albumId;
+        this.albumName = albumName;
     }
 
-    // Constructor for retrieving a song with joined album information
     public Song(int id, String title, String genre, String length, int albumId, String albumName, boolean archived) {
         this.id = id;
         this.title = title;
@@ -38,7 +31,6 @@ public class Song {
         this.archived = archived;
     }
 
-    // Getters and Setters
     public int getId() {
         return id;
     }
