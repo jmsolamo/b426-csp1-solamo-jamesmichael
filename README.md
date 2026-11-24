@@ -277,8 +277,6 @@ private final static String USERNAME = "root";
 private final static String PASSWORD = "";
 ```
 
-> ⚠️ Never commit real passwords to GitHub. Keep your local credentials out of version control, or load them from environment variables.
-
 ### 4. Create an admin account (optional)
 
 The SQL dump includes a seeded admin account (`admin` / `admin123456`). To promote another user:
